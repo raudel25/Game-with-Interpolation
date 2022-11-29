@@ -67,10 +67,7 @@
             //Fin del juego
             game.physics.arcade.checkCollision.down = false;
             ball.checkWorldBounds = true;
-            ball.events.onOutOfBounds.add(() => {
-                alert("Game over!");
-                location.reload();
-            }, this);
+            ball.events.onOutOfBounds.add(ballLeaveScreen, this);
 
             //Crear la paleta
             paddle = game.add.sprite(
@@ -171,16 +168,9 @@
             killTween.start();
 
             score += 10;
-            scoreText.setText(`Points: ${score}`);
-
-            let count_alive = 0;
-            for (let i = 0; i < bricks.children.length; i++) {
-                if (bricks.children[i].alive) {
-                    count_alive++;
-                }
-            }
-            if (count_alive === 0) {
-                alert("You won the game, congratulations!");
+            scoreText.setText('Points: ' + score);
+            if (score === brickInfo.count.row * brickInfo.count.col * 10) {
+                alert('You won the game, congratulations!');
                 location.reload();
             }
         }
